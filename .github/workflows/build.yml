@@ -1,0 +1,22 @@
+name: Build C Program
+
+on:
+  push:
+    branches:
+      
+      -main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest  # Use the latest version of Ubuntu
+
+    steps:
+      
+    - name: Check out the code
+      uses: actions/checkout@v2  # Check out the repository
+
+      
+    - name: Compile C program
+      run: gcc -o my_program code.c
+    - name: Run the compiled program
+      run: ./code
