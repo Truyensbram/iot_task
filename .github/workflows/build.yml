@@ -1,10 +1,10 @@
-name: Build C Program
+name: Build C Program for Pynq-Z2
 
 on:
   push:
     branches:
       
-      -main
+      - main
 
 jobs:
   build:
@@ -16,7 +16,22 @@ jobs:
       uses: actions/checkout@v2  # Check out the repository
 
       
+    - name: Install ARM GCC Toolchain
+      run: |
+        sudo apt-get update -qy
+        sudo apt-get install -y gcc-arm-none-eabi
+
+      
     - name: Compile C program
-      run: gcc -o my_program code.c
-    - name: Run the compiled program
-      run: ./code
+      run: arm-none-eabi-gcc -o my_program code.c
+
+      
+    - name: Run the compiled program on QEMU (optional)
+      run: qemu-arm -L /usr/arm-none-eabi/ -q code
+
+      
+    - name: Upload the compiled program
+      uses: actions/upload-artifact@v2
+      with:
+        name: code
+        path: code
